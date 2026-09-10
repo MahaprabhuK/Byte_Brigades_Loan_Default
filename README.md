@@ -1,5 +1,10 @@
 # Byte Brigades: Loan Default Data Warehousing & Data Mining System
 
+[![Live Web App](https://img.shields.io/badge/Live%20Web%20App-Online-10b981?style=for-the-badge&logo=vercel)](https://byte-brigades-loan-default.surge.sh)
+[![GitHub Repository](https://img.shields.io/badge/GitHub-MahaprabhuK/Byte__Brigades__Loan__Default-blue?style=for-the-badge&logo=github)](https://github.com/MahaprabhuK/Byte_Brigades_Loan_Default)
+
+> 🌐 **Live Mobile & Desktop Application**: [https://byte-brigades-loan-default.surge.sh](https://byte-brigades-loan-default.surge.sh)
+
 ---
 
 ## 1. Project Title
