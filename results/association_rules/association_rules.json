@@ -1,0 +1,107 @@
+[
+    {
+        "antecedents_str": "Income_Income:Low, LoanAmount_LoanAmt:Large, CreditScore_CreditScore:Poor",
+        "consequents_str": "Default_Default:Yes",
+        "support": 0.0394,
+        "confidence": 0.6693,
+        "lift": 5.6946
+    },
+    {
+        "antecedents_str": "DTIRatio_DTI:High, Income_Income:Low, LoanAmount_LoanAmt:Large",
+        "consequents_str": "Default_Default:Yes",
+        "support": 0.0342,
+        "confidence": 0.6064,
+        "lift": 5.1592
+    },
+    {
+        "antecedents_str": "Income_Income:Low, DTIRatio_DTI:High, CreditScore_CreditScore:Poor, CoSigner_CoSigner:No",
+        "consequents_str": "Default_Default:Yes",
+        "support": 0.0336,
+        "confidence": 0.5449,
+        "lift": 4.6358
+    },
+    {
+        "antecedents_str": "Income_Income:Low, LoanAmount_LoanAmt:Large, CoSigner_CoSigner:No",
+        "consequents_str": "Default_Default:Yes",
+        "support": 0.0419,
+        "confidence": 0.5246,
+        "lift": 4.4638
+    },
+    {
+        "antecedents_str": "DTIRatio_DTI:High, Income_Income:Low, CreditScore_CreditScore:Poor",
+        "consequents_str": "Default_Default:Yes",
+        "support": 0.0443,
+        "confidence": 0.5015,
+        "lift": 4.2669
+    },
+    {
+        "antecedents_str": "Income_Income:Low, LoanAmount_LoanAmt:Large",
+        "consequents_str": "Default_Default:Yes",
+        "support": 0.0555,
+        "confidence": 0.4967,
+        "lift": 4.2262
+    },
+    {
+        "antecedents_str": "Income_Income:Low, DTIRatio_DTI:High, CreditScore_CreditScore:Poor",
+        "consequents_str": "Default_Default:Yes, CoSigner_CoSigner:No",
+        "support": 0.0336,
+        "confidence": 0.3801,
+        "lift": 4.0899
+    },
+    {
+        "antecedents_str": "Income_Income:Low, LoanAmount_LoanAmt:Large",
+        "consequents_str": "Default_Default:Yes, CoSigner_CoSigner:No",
+        "support": 0.0419,
+        "confidence": 0.3745,
+        "lift": 4.0295
+    },
+    {
+        "antecedents_str": "Income_Income:Low, LoanAmount_LoanAmt:Large",
+        "consequents_str": "DTIRatio_DTI:High, Default_Default:Yes",
+        "support": 0.0342,
+        "confidence": 0.3059,
+        "lift": 3.7642
+    },
+    {
+        "antecedents_str": "DTIRatio_DTI:High, LoanAmount_LoanAmt:Large, CreditScore_CreditScore:Poor",
+        "consequents_str": "Default_Default:Yes",
+        "support": 0.0377,
+        "confidence": 0.433,
+        "lift": 3.6836
+    },
+    {
+        "antecedents_str": "Income_Income:Low, LoanAmount_LoanAmt:Large",
+        "consequents_str": "CreditScore_CreditScore:Poor, Default_Default:Yes",
+        "support": 0.0394,
+        "confidence": 0.3524,
+        "lift": 3.6812
+    },
+    {
+        "antecedents_str": "Income_Income:Low, CreditScore_CreditScore:Poor, CoSigner_CoSigner:No",
+        "consequents_str": "Default_Default:Yes",
+        "support": 0.0524,
+        "confidence": 0.4253,
+        "lift": 3.6188
+    },
+    {
+        "antecedents_str": "Income_Income:Low, CreditScore_CreditScore:Poor",
+        "consequents_str": "Default_Default:Yes",
+        "support": 0.0687,
+        "confidence": 0.3902,
+        "lift": 3.3195
+    },
+    {
+        "antecedents_str": "DTIRatio_DTI:High, Income_Income:Low, CoSigner_CoSigner:No",
+        "consequents_str": "Default_Default:Yes",
+        "support": 0.0445,
+        "confidence": 0.378,
+        "lift": 3.2165
+    },
+    {
+        "antecedents_str": "CreditScore_CreditScore:Poor, LoanAmount_LoanAmt:Large, CoSigner_CoSigner:No",
+        "consequents_str": "Default_Default:Yes",
+        "support": 0.0431,
+        "confidence": 0.3577,
+        "lift": 3.0434
+    }
+]

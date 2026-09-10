@@ -1,0 +1,22 @@
+# Node dependencies & builds
+web/node_modules/
+web/dist/
+web/.vercel/
+.vercel/
+node_modules/
+
+# Python cache & virtual environments
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+ENV/
+
+# Data warehouse runtime database & logs
+*.log
+*.sqlite3
+.DS_Store
+Thumbs.db

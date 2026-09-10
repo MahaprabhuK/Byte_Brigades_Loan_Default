@@ -1,0 +1,41 @@
+[
+    {
+        "ClusterID": 0,
+        "ProfileName": "Cluster C: High-Risk Vulnerable Borrowers",
+        "RiskTier": "High Risk",
+        "BorrowerCount": 15650,
+        "Percentage": 31.3,
+        "AvgIncome": 81224.32,
+        "AvgCreditScore": 475.24,
+        "AvgLoanAmount": 128387.86,
+        "AvgDTIRatio": 0.497,
+        "AvgMonthsEmployed": 27.0,
+        "DefaultRate_Pct": 20.36
+    },
+    {
+        "ClusterID": 1,
+        "ProfileName": "Cluster B: Moderate-Risk Standard Borrowers",
+        "RiskTier": "Moderate Risk",
+        "BorrowerCount": 15550,
+        "Percentage": 31.1,
+        "AvgIncome": 81775.18,
+        "AvgCreditScore": 470.77,
+        "AvgLoanAmount": 128704.87,
+        "AvgDTIRatio": 0.504,
+        "AvgMonthsEmployed": 91.5,
+        "DefaultRate_Pct": 12.38
+    },
+    {
+        "ClusterID": 2,
+        "ProfileName": "Cluster A: Low-Risk Prime Borrowers",
+        "RiskTier": "Low Risk",
+        "BorrowerCount": 18800,
+        "Percentage": 37.6,
+        "AvgIncome": 83521.02,
+        "AvgCreditScore": 741.8,
+        "AvgLoanAmount": 126487.27,
+        "AvgDTIRatio": 0.498,
+        "AvgMonthsEmployed": 60.7,
+        "DefaultRate_Pct": 3.93
+    }
+]
