@@ -55,6 +55,8 @@ class LoanDefaultPredictor:
         
         # Transform through fitted preprocessor
         X_trans = self.preprocessor.transform(df_input)
+        if hasattr(self.model, "feature_names_in_"):
+            X_trans = pd.DataFrame(X_trans, columns=self.model.feature_names_in_)
         
         # Predict continuous probability P(Default=1)
         prob_default = float(self.model.predict_proba(X_trans)[0, 1])
@@ -123,7 +125,7 @@ def evaluate_probability_model():
         "Calibration_Quality": "Excellent" if brier < 0.15 else "Moderate"
     }
     
-    with open(os.path.join(RESULTS_DIR, "prediction_evaluation.json"), "w") as f:
+    with open(os.path.join(RESULTS_DIR, "prediction_evaluation.json"), "w", encoding="utf-8") as f:
         json.dump(metrics, f, indent=4)
         
     print(f"[PREDICTOR] Evaluated Probabilistic Model: ROC-AUC: {auc:.4f}, Brier Score: {brier:.4f}")

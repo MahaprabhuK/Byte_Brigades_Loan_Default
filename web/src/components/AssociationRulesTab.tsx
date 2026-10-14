@@ -22,7 +22,7 @@ export const AssociationRulesTab: React.FC = () => {
           </div>
           <div>
             <h2 className="text-lg font-bold text-white">Association Rule Mining (Apriori Algorithm)</h2>
-            <p className="text-xs text-slate-400">Extracting non-trivial credit risk patterns with consequent outcome <code className="text-cyan-400">Default:Yes</code>.</p>
+            <p className="text-xs text-slate-400">Extracting non-trivial credit risk patterns with consequent outcome <code className="text-cyan-400">Default = Yes</code>.</p>
           </div>
         </div>
       </div>
@@ -40,7 +40,7 @@ export const AssociationRulesTab: React.FC = () => {
             <input
               type="range"
               min="1.0"
-              max="4.5"
+              max="6.0"
               step="0.1"
               value={minLift}
               onChange={(e) => setMinLift(parseFloat(e.target.value))}

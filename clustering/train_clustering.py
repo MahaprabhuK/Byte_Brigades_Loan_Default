@@ -122,7 +122,7 @@ def run_clustering_pipeline():
     df_profiles = pd.DataFrame(cluster_profiles)
     
     # Save Cluster Profiles to JSON & Markdown
-    with open(os.path.join(RESULTS_DIR, "cluster_profiles.json"), "w") as f:
+    with open(os.path.join(RESULTS_DIR, "cluster_profiles.json"), "w", encoding="utf-8") as f:
         json.dump(cluster_profiles, f, indent=4)
         
     # 3. 2D PCA Visualization of Clusters
@@ -145,6 +145,15 @@ def run_clustering_pipeline():
     plt.close()
     
     # Generate Markdown Report
+    interp_items = []
+    for p in cluster_profiles:
+        interp_items.append(
+            f"- **Cluster {p['ClusterID']} ({p['RiskTier']})**: {p['ProfileName']} - "
+            f"Borrowers average ${p['AvgIncome']:,.0f} income, {p['AvgCreditScore']} credit score, "
+            f"and a DTI ratio of {p['AvgDTIRatio']}. Observed Default Rate: **{p['DefaultRate_Pct']}%**."
+        )
+    interp_text = "\n".join(interp_items)
+
     md_report = f"""# Borrower Segmentation & Clustering Report - Byte Brigades
 
 ## Optimal Cluster Selection Analysis
@@ -155,12 +164,10 @@ def run_clustering_pipeline():
 ## Cluster Profile Characterization
 {df_profiles.to_markdown(index=False)}
 
-## Interpretation
-- **Cluster 0**: Higher income and credit score with lower DTI ratio, resulting in the lowest default probability.
-- **Cluster 1**: Moderate financial standing across average credit score and income bounds.
-- **Cluster 2**: Characterized by elevated DTI ratio and lower credit score, exhibiting a significantly higher default risk rate.
+## Interpretation & Risk Segmentation
+{interp_text}
 """
-    with open(os.path.join(RESULTS_DIR, "cluster_profiles.md"), "w") as f:
+    with open(os.path.join(RESULTS_DIR, "cluster_profiles.md"), "w", encoding="utf-8") as f:
         f.write(md_report)
         
     print("[CLUSTERING] Borrower segmentation complete. Cluster profiles & PCA plots exported.")

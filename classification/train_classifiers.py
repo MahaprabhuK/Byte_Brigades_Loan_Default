@@ -134,7 +134,7 @@ def train_and_evaluate_classifiers():
         "metrics": results,
         "confusion_matrices": conf_matrices
     }
-    with open(os.path.join(RESULTS_DIR, "classification_metrics.json"), "w") as f:
+    with open(os.path.join(RESULTS_DIR, "classification_metrics.json"), "w", encoding="utf-8") as f:
         json.dump(summary_data, f, indent=4)
         
     # Generate Markdown Table Report
@@ -160,7 +160,7 @@ Therefore, our evaluation prioritizes **Recall** (capturing actual defaulters), 
 
 Saved model artifact to `prediction/saved_models/best_classifier.joblib`.
 """
-    with open(os.path.join(RESULTS_DIR, "model_comparison.md"), "w") as f:
+    with open(os.path.join(RESULTS_DIR, "model_comparison.md"), "w", encoding="utf-8") as f:
         f.write(md_report)
         
     print("[CLASSIFICATION] Classification pipeline complete. Metrics & saved model exported successfully.")
