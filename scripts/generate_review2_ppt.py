@@ -1,18 +1,15 @@
 """
-Byte Brigades - Academic Review 2 PowerPoint Generator
--------------------------------------------------------
-Generates a structured, uncluttered 16:9 presentation deck (Review2_ByteBrigades_LoanDefault.pptx)
-Form-fitted to exact user specifications:
-- Exactly follows requested 4-point bullet format for each topic intro:
-    • What it is: [single line]
-    • Why it is needed: [single line]
-    • Where it is used: [single line]
-    • How it is helpful: [single line]
-- Strictly 12pt font for body text and bullet points
-- Professional font family: Segoe UI (Consolas for code)
-- Non-overlapping, cleanly padded confusion matrix plot
-- Pictorial visual charts for all 4 modules
+Byte Brigades - Academic Review 2 PowerPoint Generator (Complete Visual Suite)
+-------------------------------------------------------------------------------
+Generates a comprehensive, highly visual 16:9 presentation deck (Review2_ByteBrigades_LoanDefault.pptx):
 - Teammate details: Mahaprabhu K (24MID0109), Pavithran O (24MID0144), CSI3010, 16/10/26
+- Topic Intros strictly following requested 4-point bullet format (Heading, What, Why, Where, How in 12pt)
+- Dedicated visual comparison charts for all 4 topics:
+    1. Classification: 4-algorithm benchmark grouped bar chart (models_benchmark_chart.png) + ROC/CM
+    2. Clustering: Multi-panel cluster risk comparison chart (cluster_comparison_chart.png) + 2D PCA
+    3. Association Rules: Pictorial Lift horizontal bar chart (rules_lift_chart.png)
+    4. Prediction Engine: 4-tier risk policy matrix & live scoring visual (prediction_risk_visual.png)
+- Professional font: Segoe UI, strict 12pt body text, brief single lines
 """
 
 import os
@@ -118,27 +115,17 @@ def add_code_card(slide, left, top, width, height, filename, code_lines):
             p.font.color.rgb = RGBColor(241, 245, 249)
 
 def add_exact_intro_slide(prs, blank_layout, topic_title, what_is, why_needed, where_used, how_helpful, script_name, key_metric):
-    """
-    Creates an introductory concept slide strictly formatted with:
-    Heading (e.g. Classification / Clustering / Association Rules / Prediction)
-    • What it is: [single line]
-    • Why it is needed: [single line]
-    • Where it is used: [single line]
-    • How it is helpful: [single line]
-    """
+    """Creates an introductory concept slide strictly formatted with Heading, What, Why, Where, How in 12pt."""
     slide = prs.slides.add_slide(blank_layout)
     set_slide_background(slide)
     create_slide_header(slide, f"Overview: {topic_title}", category="CSI3010 | TOPIC OVERVIEW & INSTITUTIONAL ROLE")
 
-    # Main Concept Card
     add_card(slide, Inches(0.8), Inches(1.3), Inches(11.733), Inches(4.3), bg_color=COLOR_WHITE, border_color=COLOR_BLUE)
     
-    # Internal content box
     bx = slide.shapes.add_textbox(Inches(1.1), Inches(1.5), Inches(11.133), Inches(3.9))
     tb = bx.text_frame
     tb.word_wrap = True
 
-    # Heading inside card
     p_h = tb.paragraphs[0]
     p_h.text = f"Heading: {topic_title}"
     p_h.font.name = FONT_FAMILY
@@ -158,20 +145,18 @@ def add_exact_intro_slide(prs, blank_layout, topic_title, what_is, why_needed, w
         p_item = tb.add_paragraph()
         p_item.text = f"• {label} "
         p_item.font.name = FONT_FAMILY
-        p_item.font.size = Pt(12) # Strictly 12pt font
+        p_item.font.size = Pt(12)
         p_item.font.bold = True
         p_item.font.color.rgb = COLOR_BLUE
 
-        # Append single-line description
         run_desc = p_item.add_run()
         run_desc.text = desc
         run_desc.font.name = FONT_FAMILY
-        run_desc.font.size = Pt(12) # Strictly 12pt font
+        run_desc.font.size = Pt(12)
         run_desc.font.bold = False
         run_desc.font.color.rgb = COLOR_TEXT_MAIN
         p_item.space_after = Pt(14)
 
-    # Bottom Metadata Badge Card
     add_card(slide, Inches(0.8), Inches(5.8), Inches(11.733), Inches(1.15), bg_color=RGBColor(238, 242, 255), border_color=COLOR_BLUE)
     b_meta = slide.shapes.add_textbox(Inches(1.1), Inches(5.9), Inches(11.133), Inches(0.95))
     tb_meta = b_meta.text_frame
@@ -238,7 +223,6 @@ def create_deck():
     p2.font.size = Pt(13)
     p2.font.color.rgb = RGBColor(148, 163, 184)
 
-    # Card 1: Team Members
     add_card(s1, Inches(1.0), Inches(4.3), Inches(5.4), Inches(2.4), bg_color=RGBColor(30, 41, 59), border_color=RGBColor(51, 65, 85))
     tm_box = s1.shapes.add_textbox(Inches(1.2), Inches(4.45), Inches(5.0), Inches(2.1))
     ttm = tm_box.text_frame
@@ -264,7 +248,6 @@ def create_deck():
         pi.font.color.rgb = COLOR_WHITE
         pi.space_after = Pt(6)
 
-    # Card 2: Date & Project Details
     add_card(s1, Inches(6.8), Inches(4.3), Inches(5.5), Inches(2.4), bg_color=RGBColor(30, 41, 59), border_color=RGBColor(51, 65, 85))
     dt_box = s1.shapes.add_textbox(Inches(7.0), Inches(4.45), Inches(5.1), Inches(2.1))
     tdt = dt_box.text_frame
@@ -376,7 +359,7 @@ def create_deck():
         pi.space_after = Pt(8)
 
     # =========================================================================
-    # SLIDE 3: Topic 1 INTRO — Classification (Exact Requested Format)
+    # SLIDE 3: Topic 1 INTRO — Classification
     # =========================================================================
     add_exact_intro_slide(
         prs, blank_layout,
@@ -472,24 +455,53 @@ def create_deck():
     p2.font.color.rgb = COLOR_TEXT_MAIN
 
     # =========================================================================
-    # SLIDE 5: Classification — Pictorial Diagnostics (Fixed Spacing)
+    # SLIDE 5: Classification — 4 Algorithms Visual Comparison Chart
     # =========================================================================
     s5 = prs.slides.add_slide(blank_layout)
     set_slide_background(s5)
-    create_slide_header(s5, "Classification: Pictorial Diagnostics (Confusion Matrices & ROC)")
+    create_slide_header(s5, "Classification: Multi-Algorithm Visual Benchmark Comparison")
+
+    bar_chart_path = os.path.join(RESULTS_DIR, "classification", "models_benchmark_chart.png")
+    if os.path.exists(bar_chart_path):
+        add_card(s5, Inches(0.8), Inches(1.3), Inches(11.733), Inches(4.5))
+        s5.shapes.add_picture(bar_chart_path, Inches(1.0), Inches(1.4), width=Inches(11.333))
+
+    add_card(s5, Inches(0.8), Inches(5.95), Inches(11.733), Inches(1.1))
+    b5_text = s5.shapes.add_textbox(Inches(1.0), Inches(6.02), Inches(11.333), Inches(0.95))
+    tb5_text = b5_text.text_frame
+    tb5_text.word_wrap = True
+    p = tb5_text.paragraphs[0]
+    p.text = "Comparative Visual Insights Across 4 Models:"
+    p.font.name = FONT_FAMILY
+    p.font.size = Pt(12)
+    p.font.bold = True
+    p.font.color.rgb = COLOR_NAVY
+    p.space_after = Pt(2)
+    p2 = tb5_text.add_paragraph()
+    p2.text = "• Gradient Boosting achieves top scores across Accuracy (97.75%), Precision (97.11%), F1 (0.8965), and ROC-AUC (0.9973).\n• Logistic Regression baseline provides high recall (94.10%) but low precision (57.19%), causing too many false alarms."
+    p2.font.name = FONT_FAMILY
+    p2.font.size = Pt(11)
+    p2.font.color.rgb = COLOR_TEXT_MAIN
+
+    # =========================================================================
+    # SLIDE 6: Classification — Pictorial Diagnostics (Confusion Matrix & ROC)
+    # =========================================================================
+    s6 = prs.slides.add_slide(blank_layout)
+    set_slide_background(s6)
+    create_slide_header(s6, "Classification: Pictorial Diagnostics (Confusion Matrices & ROC)")
 
     cm_path = os.path.join(RESULTS_DIR, "classification", "confusion_matrices.png")
     if os.path.exists(cm_path):
-        add_card(s5, Inches(0.8), Inches(1.3), Inches(5.7), Inches(4.5))
-        s5.shapes.add_picture(cm_path, Inches(0.9), Inches(1.4), width=Inches(5.5))
+        add_card(s6, Inches(0.8), Inches(1.3), Inches(5.7), Inches(4.5))
+        s6.shapes.add_picture(cm_path, Inches(0.9), Inches(1.4), width=Inches(5.5))
 
     roc_path = os.path.join(RESULTS_DIR, "classification", "roc_curves.png")
     if os.path.exists(roc_path):
-        add_card(s5, Inches(6.8), Inches(1.3), Inches(5.733), Inches(4.5))
-        s5.shapes.add_picture(roc_path, Inches(6.9), Inches(1.4), width=Inches(5.5))
+        add_card(s6, Inches(6.8), Inches(1.3), Inches(5.733), Inches(4.5))
+        s6.shapes.add_picture(roc_path, Inches(6.9), Inches(1.4), width=Inches(5.5))
 
-    add_card(s5, Inches(0.8), Inches(5.95), Inches(11.733), Inches(1.1))
-    b4 = s5.shapes.add_textbox(Inches(1.0), Inches(6.02), Inches(11.333), Inches(0.95))
+    add_card(s6, Inches(0.8), Inches(5.95), Inches(11.733), Inches(1.1))
+    b4 = s6.shapes.add_textbox(Inches(1.0), Inches(6.02), Inches(11.333), Inches(0.95))
     tb4 = b4.text_frame
     tb4.word_wrap = True
     p = tb4.paragraphs[0]
@@ -506,7 +518,7 @@ def create_deck():
     p2.font.color.rgb = COLOR_TEXT_MAIN
 
     # =========================================================================
-    # SLIDE 6: Topic 2 INTRO — Clustering (Exact Requested Format)
+    # SLIDE 7: Topic 2 INTRO — Clustering
     # =========================================================================
     add_exact_intro_slide(
         prs, blank_layout,
@@ -520,11 +532,11 @@ def create_deck():
     )
 
     # =========================================================================
-    # SLIDE 7: Clustering — Code & Optimal K Selection
+    # SLIDE 8: Clustering — Code & Optimal K Selection
     # =========================================================================
-    s7 = prs.slides.add_slide(blank_layout)
-    set_slide_background(s7)
-    create_slide_header(s7, "Borrower Clustering: K-Means Code & Optimal K Determination")
+    s8 = prs.slides.add_slide(blank_layout)
+    set_slide_background(s8)
+    create_slide_header(s8, "Borrower Clustering: K-Means Code & Optimal K Determination")
 
     code_clust = [
         "# clustering/train_clustering.py",
@@ -545,15 +557,15 @@ def create_deck():
         "# Selected optimal K=3 (Elbow Inflection)",
         "final_kmeans = KMeans(n_clusters=3, random_state=42)"
     ]
-    add_code_card(s7, Inches(0.8), Inches(1.3), Inches(4.8), Inches(5.7), "train_clustering.py", code_clust)
+    add_code_card(s8, Inches(0.8), Inches(1.3), Inches(4.8), Inches(5.7), "train_clustering.py", code_clust)
 
     elbow_path = os.path.join(RESULTS_DIR, "clustering", "elbow_silhouette.png")
     if os.path.exists(elbow_path):
-        add_card(s7, Inches(5.8), Inches(1.3), Inches(6.733), Inches(4.3))
-        s7.shapes.add_picture(elbow_path, Inches(5.9), Inches(1.4), width=Inches(6.5))
+        add_card(s8, Inches(5.8), Inches(1.3), Inches(6.733), Inches(4.3))
+        s8.shapes.add_picture(elbow_path, Inches(5.9), Inches(1.4), width=Inches(6.5))
 
-    add_card(s7, Inches(5.8), Inches(5.75), Inches(6.733), Inches(1.25), bg_color=RGBColor(236, 253, 245), border_color=COLOR_EMERALD)
-    b5b = s7.shapes.add_textbox(Inches(5.95), Inches(5.82), Inches(6.433), Inches(1.1))
+    add_card(s8, Inches(5.8), Inches(5.75), Inches(6.733), Inches(1.25), bg_color=RGBColor(236, 253, 245), border_color=COLOR_EMERALD)
+    b5b = s8.shapes.add_textbox(Inches(5.95), Inches(5.82), Inches(6.433), Inches(1.1))
     tb5b = b5b.text_frame
     tb5b.word_wrap = True
     p = tb5b.paragraphs[0]
@@ -570,80 +582,43 @@ def create_deck():
     p2.font.color.rgb = COLOR_TEXT_MAIN
 
     # =========================================================================
-    # SLIDE 8: Clustering — Risk Profiles ($K=3$) & 2D PCA Space
+    # SLIDE 9: Clustering — Multi-Panel Risk Profiles Visual Comparison
     # =========================================================================
-    s8 = prs.slides.add_slide(blank_layout)
-    set_slide_background(s8)
-    create_slide_header(s8, "Borrower Risk Profiles ($K=3$) & 2D PCA Dimensionality Reduction")
+    s9 = prs.slides.add_slide(blank_layout)
+    set_slide_background(s9)
+    create_slide_header(s9, "Borrower Clustering: Visual Profile Comparison & 2D PCA Space")
 
-    add_card(s8, Inches(0.8), Inches(1.3), Inches(6.2), Inches(5.7))
-    tbl_shape6 = s8.shapes.add_table(4, 6, Inches(0.95), Inches(1.45), Inches(5.9), Inches(2.7))
-    tbl6 = tbl_shape6.table
+    # Left: Multi-panel Cluster Comparison Chart
+    c_comp_path = os.path.join(RESULTS_DIR, "clustering", "cluster_comparison_chart.png")
+    if os.path.exists(c_comp_path):
+        add_card(s9, Inches(0.8), Inches(1.3), Inches(6.8), Inches(4.5))
+        s9.shapes.add_picture(c_comp_path, Inches(0.9), Inches(1.4), width=Inches(6.6))
 
-    h6 = ["Cluster", "Risk Tier", "Share", "Avg Credit", "Avg Emp", "Default Rate"]
-    for j, h in enumerate(h6):
-        c = tbl6.cell(0, j)
-        c.text = h
-        c.fill.solid()
-        c.fill.fore_color.rgb = COLOR_NAVY
-        for p in c.text_frame.paragraphs:
-            p.alignment = PP_ALIGN.CENTER
-            p.font.name = FONT_FAMILY
-            p.font.size = Pt(10)
-            p.font.bold = True
-            p.font.color.rgb = COLOR_WHITE
+    # Right: 2D PCA Scatter Map
+    pca_path = os.path.join(RESULTS_DIR, "clustering", "cluster_scatter.png")
+    if os.path.exists(pca_path):
+        add_card(s9, Inches(7.8), Inches(1.3), Inches(4.733), Inches(4.5))
+        s9.shapes.add_picture(pca_path, Inches(7.9), Inches(1.4), width=Inches(4.533))
 
-    d6 = [
-        ["Cluster 2", "Low Risk (Prime)", "37.6%", "741.8", "60.7 mos", "3.93%"],
-        ["Cluster 1", "Moderate (Standard)", "31.1%", "470.8", "91.5 mos", "12.38%"],
-        ["Cluster 0", "High Risk (Subprime)", "31.3%", "475.2", "27.0 mos", "20.36%"]
-    ]
-    for i, row in enumerate(d6):
-        for j, val in enumerate(row):
-            c = tbl6.cell(i + 1, j)
-            c.text = val
-            c.fill.solid()
-            c.fill.fore_color.rgb = RGBColor(236, 253, 245) if i == 0 else (COLOR_ROW_ALT if i == 1 else RGBColor(254, 242, 242))
-            for p in c.text_frame.paragraphs:
-                p.alignment = PP_ALIGN.CENTER
-                p.font.name = FONT_FAMILY
-                p.font.size = Pt(10)
-                p.font.bold = (j in [1, 5])
-                if j == 5:
-                    p.font.color.rgb = COLOR_EMERALD if i == 0 else (COLOR_BLUE if i == 1 else RGBColor(225, 29, 72))
-
-    b6_sub = s8.shapes.add_textbox(Inches(0.95), Inches(4.3), Inches(5.9), Inches(2.5))
-    t6_sub = b6_sub.text_frame
-    t6_sub.word_wrap = True
-    p = t6_sub.paragraphs[0]
-    p.text = "Commercial Risk Segmentation:"
+    add_card(s9, Inches(0.8), Inches(5.95), Inches(11.733), Inches(1.1))
+    b9_text = s9.shapes.add_textbox(Inches(1.0), Inches(6.02), Inches(11.333), Inches(0.95))
+    tb9_text = b9_text.text_frame
+    tb9_text.word_wrap = True
+    p = tb9_text.paragraphs[0]
+    p.text = "Key Segment Takeaways (K=3 Tiers):"
     p.font.name = FONT_FAMILY
     p.font.size = Pt(12)
     p.font.bold = True
     p.font.color.rgb = COLOR_NAVY
-    p.space_after = Pt(4)
-
-    c_notes = [
-        "• Prime Tier (Cluster 2): High credit (741.8) -> lowest default rate (3.93%).",
-        "• Standard Tier (Cluster 1): Long employment tenure (91.5 mos) -> moderate default (12.38%).",
-        "• Subprime Tier (Cluster 0): Short employment (27.0 mos) -> default surges to 20.36%.",
-        "• Unsupervised validation: Segments default risk without using Default labels."
-    ]
-    for cn in c_notes:
-        pi = t6_sub.add_paragraph()
-        pi.text = cn
-        pi.font.name = FONT_FAMILY
-        pi.font.size = Pt(11)
-        pi.font.color.rgb = COLOR_TEXT_MAIN
-        pi.space_after = Pt(4)
-
-    pca_path = os.path.join(RESULTS_DIR, "clustering", "cluster_scatter.png")
-    if os.path.exists(pca_path):
-        add_card(s8, Inches(7.2), Inches(1.3), Inches(5.333), Inches(5.7))
-        s8.shapes.add_picture(pca_path, Inches(7.3), Inches(1.45), width=Inches(5.133))
+    p.space_after = Pt(2)
+    p2 = tb9_text.add_paragraph()
+    p2.text = "• Prime Tier (Cluster 2): High credit (741.8) -> 3.93% default rate | Standard Tier (Cluster 1): Long employment (91.5 mos) -> 12.38% default.\n• Subprime Tier (Cluster 0): Short employment (27.0 mos) -> 20.36% default rate (5.2x higher than Prime). 2D PCA validates clear geometric separation."
+    p2.font.name = FONT_FAMILY
+    p2.font.size = Pt(11)
+    p2.font.color.rgb = COLOR_TEXT_MAIN
 
     # =========================================================================
-    # SLIDE 9: Topic 3 INTRO — Association Rules (Exact Requested Format)
+    # SLIDE 10: Topic 3 INTRO — Association Rules
     # =========================================================================
     add_exact_intro_slide(
         prs, blank_layout,
@@ -657,11 +632,11 @@ def create_deck():
     )
 
     # =========================================================================
-    # SLIDE 10: Association Rules — Code & Discretization Methodology
+    # SLIDE 11: Association Rules — Code & Discretization Methodology
     # =========================================================================
-    s10 = prs.slides.add_slide(blank_layout)
-    set_slide_background(s10)
-    create_slide_header(s10, "Association Rules: Discretization & Apriori Algorithm Code")
+    s11 = prs.slides.add_slide(blank_layout)
+    set_slide_background(s11)
+    create_slide_header(s11, "Association Rules: Discretization & Apriori Algorithm Code")
 
     code_assoc = [
         "# association_rules/mine_rules.py",
@@ -681,10 +656,10 @@ def create_deck():
         "default_rules = rules[rules['consequents_str'].str.contains('Default=Yes')]",
         "top_rules = default_rules.sort_values(by='lift', ascending=False)"
     ]
-    add_code_card(s10, Inches(0.8), Inches(1.3), Inches(5.8), Inches(5.7), "mine_rules.py", code_assoc)
+    add_code_card(s11, Inches(0.8), Inches(1.3), Inches(5.8), Inches(5.7), "mine_rules.py", code_assoc)
 
-    add_card(s10, Inches(6.8), Inches(1.3), Inches(5.733), Inches(5.7))
-    b7 = s10.shapes.add_textbox(Inches(7.0), Inches(1.45), Inches(5.3), Inches(5.3))
+    add_card(s11, Inches(6.8), Inches(1.3), Inches(5.733), Inches(5.7))
+    b7 = s11.shapes.add_textbox(Inches(7.0), Inches(1.45), Inches(5.3), Inches(5.3))
     tb7 = b7.text_frame
     tb7.word_wrap = True
     p = tb7.paragraphs[0]
@@ -710,19 +685,19 @@ def create_deck():
         pi.space_after = Pt(8)
 
     # =========================================================================
-    # SLIDE 11: Association Rules — Pictorial Representation & Top Rules Table
+    # SLIDE 12: Association Rules — Pictorial Representation & Top Rules Table
     # =========================================================================
-    s11 = prs.slides.add_slide(blank_layout)
-    set_slide_background(s11)
-    create_slide_header(s11, "Association Rules: Pictorial Lift Chart & Top Risk Patterns")
+    s12 = prs.slides.add_slide(blank_layout)
+    set_slide_background(s12)
+    create_slide_header(s12, "Association Rules: Pictorial Lift Chart & Top Risk Patterns")
 
     chart_path = os.path.join(RESULTS_DIR, "association_rules", "rules_lift_chart.png")
     if os.path.exists(chart_path):
-        add_card(s11, Inches(0.8), Inches(1.3), Inches(6.5), Inches(5.7))
-        s11.shapes.add_picture(chart_path, Inches(0.9), Inches(1.4), width=Inches(6.3))
+        add_card(s12, Inches(0.8), Inches(1.3), Inches(6.5), Inches(5.7))
+        s12.shapes.add_picture(chart_path, Inches(0.9), Inches(1.4), width=Inches(6.3))
 
-    add_card(s11, Inches(7.5), Inches(1.3), Inches(5.033), Inches(5.7))
-    b8r = s11.shapes.add_textbox(Inches(7.65), Inches(1.45), Inches(4.7), Inches(5.3))
+    add_card(s12, Inches(7.5), Inches(1.3), Inches(5.033), Inches(5.7))
+    b8r = s12.shapes.add_textbox(Inches(7.65), Inches(1.45), Inches(4.7), Inches(5.3))
     tb8r = b8r.text_frame
     tb8r.word_wrap = True
     p = tb8r.paragraphs[0]
@@ -755,7 +730,7 @@ def create_deck():
         p_desc.space_after = Pt(6)
 
     # =========================================================================
-    # SLIDE 12: Topic 4 INTRO — Prediction Engine (Exact Requested Format)
+    # SLIDE 13: Topic 4 INTRO — Prediction Engine
     # =========================================================================
     add_exact_intro_slide(
         prs, blank_layout,
@@ -769,11 +744,11 @@ def create_deck():
     )
 
     # =========================================================================
-    # SLIDE 13: Prediction Engine — Code & 4-Tier Policy Matrix
+    # SLIDE 14: Prediction Engine — Code & Policy Tiers
     # =========================================================================
-    s13 = prs.slides.add_slide(blank_layout)
-    set_slide_background(s13)
-    create_slide_header(s13, "Prediction Engine: Continuous Scoring Code & Policy Tiers")
+    s14 = prs.slides.add_slide(blank_layout)
+    set_slide_background(s14)
+    create_slide_header(s14, "Prediction Engine: Continuous Scoring Code & Policy Tiers")
 
     code_pred = [
         "# prediction/predictor.py",
@@ -794,10 +769,10 @@ def create_deck():
         "        ",
         "        return {'prob': prob, 'tier': tier, 'factors': warnings}"
     ]
-    add_code_card(s13, Inches(0.8), Inches(1.3), Inches(5.2), Inches(5.7), "predictor.py", code_pred)
+    add_code_card(s14, Inches(0.8), Inches(1.3), Inches(5.2), Inches(5.7), "predictor.py", code_pred)
 
-    add_card(s13, Inches(6.2), Inches(1.3), Inches(6.333), Inches(1.7), bg_color=RGBColor(238, 242, 255), border_color=COLOR_BLUE)
-    b9_top = s13.shapes.add_textbox(Inches(6.35), Inches(1.4), Inches(6.0), Inches(1.5))
+    add_card(s14, Inches(6.2), Inches(1.3), Inches(6.333), Inches(1.7), bg_color=RGBColor(238, 242, 255), border_color=COLOR_BLUE)
+    b9_top = s14.shapes.add_textbox(Inches(6.35), Inches(1.4), Inches(6.0), Inches(1.5))
     tb9_top = b9_top.text_frame
     tb9_top.word_wrap = True
     p = tb9_top.paragraphs[0]
@@ -821,8 +796,8 @@ def create_deck():
         pi.font.size = Pt(10)
         pi.font.color.rgb = COLOR_TEXT_MAIN
 
-    add_card(s13, Inches(6.2), Inches(3.2), Inches(6.333), Inches(3.8))
-    b9_bot = s13.shapes.add_textbox(Inches(6.35), Inches(3.3), Inches(6.0), Inches(3.5))
+    add_card(s14, Inches(6.2), Inches(3.2), Inches(6.333), Inches(3.8))
+    b9_bot = s14.shapes.add_textbox(Inches(6.35), Inches(3.3), Inches(6.0), Inches(3.5))
     tb9_bot = b9_bot.text_frame
     tb9_bot.word_wrap = True
     p = tb9_bot.paragraphs[0]
@@ -854,14 +829,43 @@ def create_deck():
         pd.space_after = Pt(4)
 
     # =========================================================================
-    # SLIDE 14: Summary & Review 3 Transition
+    # SLIDE 15: Prediction Engine — Visual Chart (4 Tiers & Scoring Distribution)
     # =========================================================================
-    s14 = prs.slides.add_slide(blank_layout)
-    set_slide_background(s14)
-    create_slide_header(s14, "Summary of Review 2 & Roadmap to Final Review 3")
+    s15 = prs.slides.add_slide(blank_layout)
+    set_slide_background(s15)
+    create_slide_header(s15, "Prediction Engine: Pictorial Policy Matrix & Inference Visual")
 
-    add_card(s14, Inches(0.8), Inches(1.3), Inches(5.7), Inches(5.7))
-    b10a = s14.shapes.add_textbox(Inches(1.0), Inches(1.45), Inches(5.3), Inches(5.3))
+    pred_chart_path = os.path.join(RESULTS_DIR, "prediction", "prediction_risk_visual.png")
+    if os.path.exists(pred_chart_path):
+        add_card(s15, Inches(0.8), Inches(1.3), Inches(11.733), Inches(4.5))
+        s15.shapes.add_picture(pred_chart_path, Inches(1.0), Inches(1.4), width=Inches(11.333))
+
+    add_card(s15, Inches(0.8), Inches(5.95), Inches(11.733), Inches(1.1))
+    b15_text = s15.shapes.add_textbox(Inches(1.0), Inches(6.02), Inches(11.333), Inches(0.95))
+    tb15_text = b15_text.text_frame
+    tb15_text.word_wrap = True
+    p = tb15_text.paragraphs[0]
+    p.text = "Inference & Policy Visual Insights:"
+    p.font.name = FONT_FAMILY
+    p.font.size = Pt(12)
+    p.font.bold = True
+    p.font.color.rgb = COLOR_NAVY
+    p.space_after = Pt(2)
+    p2 = tb15_text.add_paragraph()
+    p2.text = "• Policy Matrix: Clear operational division between Prime fast-track approvals (<20%) and automatic rejections (>=70%).\n• Calibration Reliability: Brier Score of 0.0168 confirms continuous probabilities accurately mirror real-world default frequencies."
+    p2.font.name = FONT_FAMILY
+    p2.font.size = Pt(11)
+    p2.font.color.rgb = COLOR_TEXT_MAIN
+
+    # =========================================================================
+    # SLIDE 16: Summary & Review 3 Transition
+    # =========================================================================
+    s16 = prs.slides.add_slide(blank_layout)
+    set_slide_background(s16)
+    create_slide_header(s16, "Summary of Review 2 & Roadmap to Final Review 3")
+
+    add_card(s16, Inches(0.8), Inches(1.3), Inches(5.7), Inches(5.7))
+    b10a = s16.shapes.add_textbox(Inches(1.0), Inches(1.45), Inches(5.3), Inches(5.3))
     t10a = b10a.text_frame
     t10a.word_wrap = True
     p = t10a.paragraphs[0]
@@ -887,8 +891,8 @@ def create_deck():
         pi.font.color.rgb = COLOR_TEXT_MAIN
         pi.space_after = Pt(8)
 
-    add_card(s14, Inches(6.8), Inches(1.3), Inches(5.733), Inches(5.7))
-    b10b = s14.shapes.add_textbox(Inches(7.0), Inches(1.45), Inches(5.3), Inches(5.3))
+    add_card(s16, Inches(6.8), Inches(1.3), Inches(5.733), Inches(5.7))
+    b10b = s16.shapes.add_textbox(Inches(7.0), Inches(1.45), Inches(5.3), Inches(5.3))
     t10b = b10b.text_frame
     t10b.word_wrap = True
     p = t10b.paragraphs[0]
