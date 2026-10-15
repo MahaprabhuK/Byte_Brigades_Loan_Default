@@ -1,12 +1,17 @@
 """
-Byte Brigades - Academic Review 2 Concise PowerPoint Generator
----------------------------------------------------------------
-Generates a clean, professional 16:9 presentation deck (Review2_ByteBrigades_LoanDefault.pptx)
-Formatting specifications:
-- Professional font: Segoe UI
-- Font size: strictly 12pt for body text and bullet points
-- Content: brief, single-line points (no multi-line paragraphs)
-- Clear headings, code snippets, visual plots, and numerical results
+Byte Brigades - Academic Review 2 PowerPoint Generator
+-------------------------------------------------------
+Generates a structured, uncluttered 16:9 presentation deck (Review2_ByteBrigades_LoanDefault.pptx)
+Form-fitted to exact user specifications:
+- Exactly follows requested 4-point bullet format for each topic intro:
+    • What it is: [single line]
+    • Why it is needed: [single line]
+    • Where it is used: [single line]
+    • How it is helpful: [single line]
+- Strictly 12pt font for body text and bullet points
+- Professional font family: Segoe UI (Consolas for code)
+- Non-overlapping, cleanly padded confusion matrix plot
+- Pictorial visual charts for all 4 modules
 - Teammate details: Mahaprabhu K (24MID0109), Pavithran O (24MID0144), CSI3010, 16/10/26
 """
 
@@ -112,39 +117,77 @@ def add_code_card(slide, left, top, width, height, filename, code_lines):
         else:
             p.font.color.rgb = RGBColor(241, 245, 249)
 
-def add_topic_intro_slide(prs, blank_layout, topic_num, topic_name, why_points, how_points, what_points, use_points, accent_color=COLOR_BLUE):
-    """Creates a brief, single-line structured introductory slide explaining Why, How, What It Does, and Practical Use."""
+def add_exact_intro_slide(prs, blank_layout, topic_title, what_is, why_needed, where_used, how_helpful, script_name, key_metric):
+    """
+    Creates an introductory concept slide strictly formatted with:
+    Heading (e.g. Classification / Clustering / Association Rules / Prediction)
+    • What it is: [single line]
+    • Why it is needed: [single line]
+    • Where it is used: [single line]
+    • How it is helpful: [single line]
+    """
     slide = prs.slides.add_slide(blank_layout)
     set_slide_background(slide)
-    create_slide_header(slide, f"Topic {topic_num}: {topic_name} — Concept & Institutional Role", category=f"CSI3010 | MODULE {topic_num}: {topic_name.upper()}")
+    create_slide_header(slide, f"Overview: {topic_title}", category="CSI3010 | TOPIC OVERVIEW & INSTITUTIONAL ROLE")
 
-    cards_meta = [
-        ("1. WHY We Used It (Problem Statement)", why_points, Inches(0.8), Inches(1.3), Inches(5.7), Inches(2.75), RGBColor(238, 242, 255), COLOR_BLUE),
-        ("2. HOW We Used It (Pipeline & Methods)", how_points, Inches(6.8), Inches(1.3), Inches(5.733), Inches(2.75), RGBColor(236, 253, 245), COLOR_EMERALD),
-        ("3. WHAT It Does in Our Project (System Role)", what_points, Inches(0.8), Inches(4.25), Inches(5.7), Inches(2.8), RGBColor(254, 249, 195), RGBColor(202, 138, 4)),
-        ("4. PRACTICAL USE (Underwriting & Business Value)", use_points, Inches(6.8), Inches(4.25), Inches(5.733), Inches(2.8), RGBColor(245, 243, 255), RGBColor(147, 51, 234))
+    # Main Concept Card
+    add_card(slide, Inches(0.8), Inches(1.3), Inches(11.733), Inches(4.3), bg_color=COLOR_WHITE, border_color=COLOR_BLUE)
+    
+    # Internal content box
+    bx = slide.shapes.add_textbox(Inches(1.1), Inches(1.5), Inches(11.133), Inches(3.9))
+    tb = bx.text_frame
+    tb.word_wrap = True
+
+    # Heading inside card
+    p_h = tb.paragraphs[0]
+    p_h.text = f"Heading: {topic_title}"
+    p_h.font.name = FONT_FAMILY
+    p_h.font.size = Pt(16)
+    p_h.font.bold = True
+    p_h.font.color.rgb = COLOR_NAVY
+    p_h.space_after = Pt(14)
+
+    items = [
+        ("What it is:", what_is),
+        ("Why it is needed:", why_needed),
+        ("Where it is used:", where_used),
+        ("How it is helpful:", how_helpful)
     ]
 
-    for title, points, l, t, w, h, bg_c, border_c in cards_meta:
-        add_card(slide, l, t, w, h, bg_color=bg_c, border_color=border_c)
-        bx = slide.shapes.add_textbox(l + Inches(0.2), t + Inches(0.15), w - Inches(0.4), h - Inches(0.3))
-        tb = bx.text_frame
-        tb.word_wrap = True
-        p = tb.paragraphs[0]
-        p.text = title
-        p.font.name = FONT_FAMILY
-        p.font.size = Pt(13)
-        p.font.bold = True
-        p.font.color.rgb = border_c
-        p.space_after = Pt(8)
+    for label, desc in items:
+        p_item = tb.add_paragraph()
+        p_item.text = f"• {label} "
+        p_item.font.name = FONT_FAMILY
+        p_item.font.size = Pt(12) # Strictly 12pt font
+        p_item.font.bold = True
+        p_item.font.color.rgb = COLOR_BLUE
 
-        for pt in points:
-            pi = tb.add_paragraph()
-            pi.text = f"• {pt}"
-            pi.font.name = FONT_FAMILY
-            pi.font.size = Pt(12) # Exactly 12pt font as requested
-            pi.font.color.rgb = COLOR_TEXT_MAIN
-            pi.space_after = Pt(6)
+        # Append single-line description
+        run_desc = p_item.add_run()
+        run_desc.text = desc
+        run_desc.font.name = FONT_FAMILY
+        run_desc.font.size = Pt(12) # Strictly 12pt font
+        run_desc.font.bold = False
+        run_desc.font.color.rgb = COLOR_TEXT_MAIN
+        p_item.space_after = Pt(14)
+
+    # Bottom Metadata Badge Card
+    add_card(slide, Inches(0.8), Inches(5.8), Inches(11.733), Inches(1.15), bg_color=RGBColor(238, 242, 255), border_color=COLOR_BLUE)
+    b_meta = slide.shapes.add_textbox(Inches(1.1), Inches(5.9), Inches(11.133), Inches(0.95))
+    tb_meta = b_meta.text_frame
+    tb_meta.word_wrap = True
+    pm = tb_meta.paragraphs[0]
+    pm.text = f"Project Implementation: {script_name}  |  Champion Result: {key_metric}"
+    pm.font.name = FONT_FAMILY
+    pm.font.size = Pt(12)
+    pm.font.bold = True
+    pm.font.color.rgb = COLOR_BLUE
+    pm.space_after = Pt(2)
+    pm2 = tb_meta.add_paragraph()
+    pm2.text = "Execution verified against Kaggle benchmark dataset (50,000 records, 18 financial features) with zero data leakage."
+    pm2.font.name = FONT_FAMILY
+    pm2.font.size = Pt(11)
+    pm2.font.color.rgb = COLOR_TEXT_MUTED
 
     return slide
 
@@ -159,7 +202,7 @@ def create_deck():
     blank_layout = prs.slide_layouts[6]
 
     # =========================================================================
-    # SLIDE 1: Title Slide (with required student, course & date details)
+    # SLIDE 1: Title Slide
     # =========================================================================
     s1 = prs.slides.add_slide(blank_layout)
     set_slide_background(s1, COLOR_NAVY)
@@ -248,14 +291,8 @@ def create_deck():
         pi.font.color.rgb = RGBColor(226, 232, 240)
         pi.space_after = Pt(4)
 
-    s1.notes_slide.notes_text_frame.text = (
-        "Good morning faculty. We are team Byte Brigades presenting Review 2 for CSI3010 Data Warehousing & Data Mining. "
-        "Our team members are Mahaprabhu K (24MID0109) and Pavithran O (24MID0144). "
-        "Today we present the four core data mining deliverables: Classification, Clustering, Association Rules, and Default Prediction."
-    )
-
     # =========================================================================
-    # SLIDE 2: Dataset Profile & Review-2 Scope Overview
+    # SLIDE 2: Dataset Profile & Scope
     # =========================================================================
     s2 = prs.slides.add_slide(blank_layout)
     set_slide_background(s2)
@@ -308,7 +345,7 @@ def create_deck():
         pi = t2a.add_paragraph()
         pi.text = f"• {k} {v}"
         pi.font.name = FONT_FAMILY
-        pi.font.size = Pt(12) # 12pt font
+        pi.font.size = Pt(12)
         pi.font.color.rgb = COLOR_TEXT_MAIN
         pi.space_after = Pt(8)
 
@@ -334,44 +371,22 @@ def create_deck():
         pi = t2b.add_paragraph()
         pi.text = f"• {k} {v}"
         pi.font.name = FONT_FAMILY
-        pi.font.size = Pt(12) # 12pt font
+        pi.font.size = Pt(12)
         pi.font.color.rgb = COLOR_TEXT_MAIN
         pi.space_after = Pt(8)
 
-    s2.notes_slide.notes_text_frame.text = (
-        "Here is the dataset profile. With 50,000 records, defaults represent only 11.7%. "
-        "A naive model predicting zero defaults achieves 88% accuracy while failing completely. "
-        "Hence our evaluation strictly prioritizes Recall, F1-Score, and ROC-AUC."
-    )
-
     # =========================================================================
-    # SLIDE 3: Topic 1 INTRO — Classification: Why, How, What It Does & Use (Single-line, 12pt)
+    # SLIDE 3: Topic 1 INTRO — Classification (Exact Requested Format)
     # =========================================================================
-    add_topic_intro_slide(
+    add_exact_intro_slide(
         prs, blank_layout,
-        topic_num="1",
-        topic_name="Classification",
-        why_points=[
-            "Lending institutions suffer severe bad-debt write-offs when borrowers default.",
-            "Lenders require an automated, objective system to screen high-risk loan applicants.",
-            "Manual underwriter reviews are slow, inconsistent, and cannot scale across high loan volumes."
-        ],
-        how_points=[
-            "Benchmarked 4 supervised classifiers: Logistic Regression, Decision Tree, Random Forest, Gradient Boosting.",
-            "Handled class imbalance (11.7% default) via class-weighting and prioritized F1-Score & ROC-AUC.",
-            "Evaluated on 10,000 holdout test samples with zero data leakage from training."
-        ],
-        what_points=[
-            "Learns complex financial risk patterns to classify applicants into Default (1) vs. No Default (0).",
-            "Identifies Gradient Boosting as champion architecture with 97.75% accuracy and 0.8965 F1-Score.",
-            "Exports the champion model into prediction/saved_models/best_classifier.joblib."
-        ],
-        use_points=[
-            "Automated Underwriting: Fast-tracks credit approvals while instantly flagging risky loans.",
-            "Loss Prevention: Drastically slashes Non-Performing Assets (NPAs) with 97.11% precision.",
-            "Institutional Standard: Establishes a verifiable, auditable credit decision benchmark."
-        ],
-        accent_color=COLOR_BLUE
+        topic_title="Classification",
+        what_is="Supervised machine learning method that categorizes borrower applications into binary outcomes (0: No Default, 1: Default).",
+        why_needed="Flags high-risk applicants before credit disbursement to prevent non-performing assets (NPAs) and bad-debt write-offs.",
+        where_used="Deployed in the initial automated credit underwriting pipeline to evaluate all incoming applicant profiles.",
+        how_helpful="Provides fast, objective risk screening with 97.75% accuracy and an optimal 0.8965 F1-Score.",
+        script_name="classification/train_classifiers.py",
+        key_metric="Champion: Gradient Boosting (Accuracy: 97.75% | F1: 0.8965 | ROC-AUC: 0.9973)"
     )
 
     # =========================================================================
@@ -456,14 +471,8 @@ def create_deck():
     p2.font.size = Pt(11)
     p2.font.color.rgb = COLOR_TEXT_MAIN
 
-    s4.notes_slide.notes_text_frame.text = (
-        "Here is the training code and test set benchmark. "
-        "Logistic regression provides high recall but generates too many false alarms (57% precision). "
-        "Gradient Boosting achieved 97.11% precision and 83.25% recall, with a champion F1-score of 0.8965 and 0.9973 ROC-AUC."
-    )
-
     # =========================================================================
-    # SLIDE 5: Classification — Pictorial Diagnostics (ROC & Confusion Matrix)
+    # SLIDE 5: Classification — Pictorial Diagnostics (Fixed Spacing)
     # =========================================================================
     s5 = prs.slides.add_slide(blank_layout)
     set_slide_background(s5)
@@ -496,40 +505,18 @@ def create_deck():
     p2.font.size = Pt(11)
     p2.font.color.rgb = COLOR_TEXT_MAIN
 
-    s5.notes_slide.notes_text_frame.text = (
-        "The pictorial diagnostics show our four models. "
-        "The confusion matrix heatmaps show Gradient Boosting maintains minimal false positives. "
-        "The ROC curves confirm near-optimal probability separation across all decision thresholds."
-    )
-
     # =========================================================================
-    # SLIDE 6: Topic 2 INTRO — Clustering: Why, How, What It Does & Use (Single-line, 12pt)
+    # SLIDE 6: Topic 2 INTRO — Clustering (Exact Requested Format)
     # =========================================================================
-    add_topic_intro_slide(
+    add_exact_intro_slide(
         prs, blank_layout,
-        topic_num="2",
-        topic_name="Clustering",
-        why_points=[
-            "Credit risk is not a flat binary outcome; borrowers have diverse financial archetypes.",
-            "Lenders need to discover natural customer segments without relying on past default labels.",
-            "Helps underwriters identify subtle risk buildup before defaults formally occur."
-        ],
-        how_points=[
-            "Standardized 5 core numerical features: Income, CreditScore, LoanAmount, DTIRatio, MonthsEmployed.",
-            "Trained K-Means clustering across K=2 to 6, evaluating within-cluster inertia and Silhouette scores.",
-            "Identified optimal K=3 at the Elbow curve inflection point and validated cluster cohesion."
-        ],
-        what_points=[
-            "Groups 50,000 borrowers into 3 natural, interpretable risk profiles (Prime, Standard, Vulnerable).",
-            "Discovers that default rates differ by over 5x between clusters (3.93% vs. 20.36%) without using default labels during training.",
-            "Projects the 5D feature space into 2D PCA components for geometric risk space visualization."
-        ],
-        use_points=[
-            "Risk-Based Portfolio Pricing: Sets tailored interest rates and borrowing limits per tier.",
-            "Proactive Portfolio Monitoring: Targets vulnerable cohorts with financial counseling before defaults trigger.",
-            "Capital Allocation: Banks allocate capital reserves based on cluster risk concentrations."
-        ],
-        accent_color=COLOR_EMERALD
+        topic_title="Clustering",
+        what_is="Unsupervised machine learning method that segments borrowers into natural risk cohorts without relying on past default labels.",
+        why_needed="Captures diverse borrower archetypes across multiple financial indicators (Income, Credit Score, DTI, Employment Tenure).",
+        where_used="Applied in credit portfolio segmentation, regulatory capital reserve allocations, and customer risk profiling.",
+        how_helpful="Enables tailored interest rate pricing, tiered credit limits, and targeted early-intervention counseling for vulnerable borrowers.",
+        script_name="clustering/train_clustering.py",
+        key_metric="Optimal K=3 (Prime: 3.93% default, Standard: 12.38%, Subprime: 20.36%)"
     )
 
     # =========================================================================
@@ -581,11 +568,6 @@ def create_deck():
     p2.font.name = FONT_FAMILY
     p2.font.size = Pt(11)
     p2.font.color.rgb = COLOR_TEXT_MAIN
-
-    s7.notes_slide.notes_text_frame.text = (
-        "Here is our clustering implementation. We standardized 5 core financial features and ran K-Means across K=2 to 6. "
-        "The Elbow plot exhibits an inflection point at K=3, creating three distinct risk archetypes."
-    )
 
     # =========================================================================
     # SLIDE 8: Clustering — Risk Profiles ($K=3$) & 2D PCA Space
@@ -660,40 +642,18 @@ def create_deck():
         add_card(s8, Inches(7.2), Inches(1.3), Inches(5.333), Inches(5.7))
         s8.shapes.add_picture(pca_path, Inches(7.3), Inches(1.45), width=Inches(5.133))
 
-    s8.notes_slide.notes_text_frame.text = (
-        "Here are the mined borrower profiles alongside the 2D PCA projection. "
-        "Cluster 2 represents Prime borrowers with a default rate of only 3.93%. "
-        "Cluster 0 isolates vulnerable borrowers where default reaches 20.36%."
-    )
-
     # =========================================================================
-    # SLIDE 9: Topic 3 INTRO — Association Rules: Why, How, What It Does & Use (Single-line, 12pt)
+    # SLIDE 9: Topic 3 INTRO — Association Rules (Exact Requested Format)
     # =========================================================================
-    add_topic_intro_slide(
+    add_exact_intro_slide(
         prs, blank_layout,
-        topic_num="3",
-        topic_name="Association Rules",
-        why_points=[
-            "Loan defaults are rarely triggered by a single parameter in isolation.",
-            "Defaults happen when multiple adverse financial traits combine (e.g. low income + high DTI + poor credit).",
-            "Traditional linear scorecards fail to capture non-linear, multi-condition risk interactions."
-        ],
-        how_points=[
-            "Discretized continuous metrics into domain bins (Income tertiles, Credit tiers, DTI brackets).",
-            "Applied the Apriori Algorithm (mlxtend) to mine frequent itemsets across 15,000 transactions.",
-            "Evaluated Support, Confidence, and Lift, filtering specifically for consequent Default=Yes."
-        ],
-        what_points=[
-            "Discovers non-trivial IF-THEN borrower risk patterns with statistical conviction.",
-            "Reveals that specific feature combinations increase default risk by over 5.69 times compared to random applicants.",
-            "Quantifies the protective impact of loan co-signers in mitigating default risk."
-        ],
-        use_points=[
-            "Underwriting Rule Engine: Automates policy rules (e.g. require collateral if Rule #1 triggers).",
-            "Underwriting Red Flags: Equips credit officers with an actionable risk checklist.",
-            "Policy Tuning: Informs credit committee policies on maximum loan sizes for low-income brackets."
-        ],
-        accent_color=RGBColor(217, 119, 6)
+        topic_title="Association Rules",
+        what_is="Data mining rule-discovery technique (Apriori) extracting non-trivial IF-THEN relationships between co-occurring loan features.",
+        why_needed="Uncovers multi-attribute risk combinations (e.g. low income + poor credit + high DTI) that linear scorecards fail to detect.",
+        where_used="Integrated into automated credit policy rule engines, underwriter red-flag checklists, and policy threshold triggers.",
+        how_helpful="Pinpoints toxic feature combinations multiplying default risk up to 5.69x over baseline and isolates the risk-reducing impact of co-signers.",
+        script_name="association_rules/mine_rules.py",
+        key_metric="Top Rule Lift = 5.69x (Confidence: 66.93% | Support: 3.94%)"
     )
 
     # =========================================================================
@@ -749,12 +709,6 @@ def create_deck():
         pi.font.color.rgb = COLOR_TEXT_MAIN
         pi.space_after = Pt(8)
 
-    s10.notes_slide.notes_text_frame.text = (
-        "To apply the Apriori algorithm, continuous numerical features were converted to categorical bins. "
-        "We set a minimum support of 3% and confidence of 30%, filtering specifically for rules leading to Default=Yes. "
-        "Lift indicates the multiplicative default risk increase above baseline."
-    )
-
     # =========================================================================
     # SLIDE 11: Association Rules — Pictorial Representation & Top Rules Table
     # =========================================================================
@@ -800,40 +754,18 @@ def create_deck():
         p_desc.font.color.rgb = COLOR_TEXT_MAIN
         p_desc.space_after = Pt(6)
 
-    s11.notes_slide.notes_text_frame.text = (
-        "Here is the pictorial representation of our mined association rules. "
-        "Rule 1 exhibits a Lift of 5.69x with 66.93% confidence when low income, poor credit, and large loan amount co-occur. "
-        "Rule 3 shows that lacking a co-signer under high DTI drives default risk over 54%."
-    )
-
     # =========================================================================
-    # SLIDE 12: Topic 4 INTRO — Prediction Engine: Why, How, What It Does & Use (Single-line, 12pt)
+    # SLIDE 12: Topic 4 INTRO — Prediction Engine (Exact Requested Format)
     # =========================================================================
-    add_topic_intro_slide(
+    add_exact_intro_slide(
         prs, blank_layout,
-        topic_num="4",
-        topic_name="Prediction",
-        why_points=[
-            "Real-world fintech does not use binary 0/1 hard decisions; credit risk is a continuous probability.",
-            "Loan pricing, interest rates, and regulatory capital reserves require an exact probability: P(Default=1).",
-            "Borrowers with 21% risk require very different underwriting actions than those with 95% risk."
-        ],
-        how_points=[
-            "Built LoanDefaultPredictor wrapping the preprocessor and champion Gradient Boosting model.",
-            "Computes continuous probability P(Default=1) in [0.0, 1.0] for any raw borrower dictionary payload.",
-            "Evaluated probability calibration quality on test data using Brier Score Loss (0.0168) and Log Loss (0.0622)."
-        ],
-        what_points=[
-            "Transforms raw applicant data in real time and predicts continuous default probability.",
-            "Maps probabilities into 4 clear risk tier badges: Low (<20%), Moderate (20-45%), High (45-70%), Critical (>=70%).",
-            "Automatically extracts specific contributing risk factors (e.g. DTI > 45%, Credit < 600, No Co-Signer)."
-        ],
-        use_points=[
-            "Risk-Based Loan Pricing: Low risk applicants get prime APR (4.5%); higher risk gets compensatory pricing.",
-            "Automated Adverse Action Notices: Explains to applicants exactly why their loan terms were adjusted.",
-            "Live Web Integration: Powers the interactive real-time loan underwriting simulator in Review 3."
-        ],
-        accent_color=RGBColor(147, 51, 234)
+        topic_title="Prediction Engine",
+        what_is="Probabilistic inference engine computing continuous probability scores P(Default=1) in range [0.0, 1.0] for any applicant payload.",
+        why_needed="Real-world credit underwriting requires granular probability scores rather than rigid 0/1 binary labels for dynamic risk pricing.",
+        where_used="Integrated into automated loan pricing engines, regulatory capital calculations, and live applicant simulator forms.",
+        how_helpful="Maps applicants into 4 distinct policy tiers (Low, Moderate, High, Critical Risk) with an exceptional 0.0168 Brier calibration score.",
+        script_name="prediction/predictor.py",
+        key_metric="Brier Score: 0.0168 (Log Loss: 0.0622 | Test ROC-AUC: 0.9973)"
     )
 
     # =========================================================================
@@ -921,12 +853,6 @@ def create_deck():
         pd.font.color.rgb = COLOR_TEXT_MAIN
         pd.space_after = Pt(4)
 
-    s13.notes_slide.notes_text_frame.text = (
-        "Here is our prediction engine implementation. "
-        "We transform borrower payloads and compute continuous probabilities P(Default=1). "
-        "Our Brier score of 0.0168 confirms the probabilities are highly calibrated, enabling a clear 4-tier risk policy."
-    )
-
     # =========================================================================
     # SLIDE 14: Summary & Review 3 Transition
     # =========================================================================
@@ -988,14 +914,8 @@ def create_deck():
         pi.font.color.rgb = COLOR_TEXT_MAIN
         pi.space_after = Pt(8)
 
-    s14.notes_slide.notes_text_frame.text = (
-        "In summary, all four required components of Review 2 are fully completed and verified. "
-        "In Review 3 we will demonstrate the live interactive dashboard and real-time simulator. "
-        "Thank you faculty, we are ready for your questions."
-    )
-
     prs.save(OUTPUT_PPT_PATH)
-    print(f"[PPT GENERATOR] Successfully created concise presentation deck: {OUTPUT_PPT_PATH}")
+    print(f"[PPT GENERATOR] Successfully created presentation deck: {OUTPUT_PPT_PATH}")
 
 if __name__ == "__main__":
     create_deck()
