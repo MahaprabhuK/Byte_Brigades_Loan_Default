@@ -53,7 +53,37 @@ plt.tight_layout()
 out_class = os.path.join(RESULTS_DIR, "classification", "models_benchmark_chart.png")
 plt.savefig(out_class, dpi=300)
 plt.close()
-print(f"[1/4] Generated: {out_class}")
+print(f"[1/5] Generated: {out_class}")
+
+# =========================================================================
+# 1B. CLASSIFICATION: Decision Tree Diagram
+# =========================================================================
+from sklearn.tree import DecisionTreeClassifier, plot_tree
+train_csv = os.path.join(BASE_DIR, "data", "processed", "train.csv")
+if os.path.exists(train_csv):
+    df_tr = pd.read_csv(train_csv)
+    X_tr = df_tr.drop(columns=["Default"])
+    y_tr = df_tr["Default"]
+    dt_clf = DecisionTreeClassifier(max_depth=3, class_weight="balanced", random_state=42)
+    dt_clf.fit(X_tr, y_tr)
+    
+    plt.figure(figsize=(16, 8), dpi=300)
+    plot_tree(
+        dt_clf,
+        feature_names=X_tr.columns.tolist(),
+        class_names=["No Default", "Default"],
+        filled=True,
+        rounded=True,
+        fontsize=8,
+        impurity=True,
+        precision=2
+    )
+    plt.title("Trained Decision Tree Classifier — Hierarchical Risk Split Architecture (Depth = 3)", fontsize=14, fontweight="bold", pad=15)
+    plt.tight_layout()
+    out_tree = os.path.join(RESULTS_DIR, "classification", "decision_tree_diagram.png")
+    plt.savefig(out_tree, dpi=300, bbox_inches="tight")
+    plt.close()
+    print(f"[1B/5] Generated: {out_tree}")
 
 # =========================================================================
 # 2. CLUSTERING: Cluster Risk Profile Comparison Visual
