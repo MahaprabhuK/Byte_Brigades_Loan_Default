@@ -1,0 +1,115 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-ink-950 font-sans text-slate-200 antialiased;
+  background-image:
+    radial-gradient(1200px 600px at 85% -10%, rgba(139, 125, 255, 0.10), transparent 60%),
+    radial-gradient(900px 500px at -10% 20%, rgba(46, 230, 200, 0.07), transparent 60%);
+  background-attachment: fixed;
+}
+
+/* faint engineering grid */
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+}
+
+.panel {
+  background: linear-gradient(180deg, rgba(14, 22, 38, 0.78), rgba(7, 11, 20, 0.86));
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 30px 60px -30px rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(14px);
+}
+
+.glow-text {
+  text-shadow: 0 0 40px rgba(46, 230, 200, 0.35);
+}
+
+.text-gradient {
+  background: linear-gradient(100deg, #2ee6c8 0%, #4cc3ff 40%, #8b7dff 70%, #ff4d6d 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* range slider */
+.range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #2ee6c8 0%, #4cc3ff var(--pct), rgba(255, 255, 255, 0.08) var(--pct));
+  outline: none;
+  cursor: pointer;
+}
+.range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: #e6fffb;
+  border: 3px solid #2ee6c8;
+  box-shadow: 0 0 14px rgba(46, 230, 200, 0.8);
+}
+.range::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: #e6fffb;
+  border: 3px solid #2ee6c8;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #04060c;
+}
+::-webkit-scrollbar-thumb {
+  background: #16213a;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2ee6c8;
+}
+
+.recharts-cartesian-grid line {
+  stroke: rgba(255, 255, 255, 0.05);
+}
+.recharts-text {
+  fill: #64748b;
+  font-family: 'JetBrains Mono Variable', monospace;
+  font-size: 10px;
+}
+.recharts-tooltip-wrapper .recharts-default-tooltip {
+  background: #0a101c !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 10px;
+  font-family: 'JetBrains Mono Variable', monospace;
+  font-size: 11px;
+}
+
+table.data td,
+table.data th {
+  @apply whitespace-nowrap px-3 py-1.5 text-left font-mono text-[11px];
+}
+table.data th {
+  @apply sticky top-0 bg-ink-850 font-medium uppercase tracking-wider text-slate-500;
+}
+table.data tr {
+  @apply border-b border-white/[0.04];
+}

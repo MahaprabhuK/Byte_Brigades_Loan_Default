@@ -1,0 +1,50 @@
+# Deploys the dashboard + API to a Hugging Face Docker Space.
+# One-time setup: add a Hugging Face *write* token as the repository secret HF_TOKEN
+# (Settings > Secrets and variables > Actions). Optional repository variable HF_SPACE
+# (e.g. "yourname/loan-default-studio"); defaults to <your HF username>/loan-default-studio.
+name: Deploy to Hugging Face Space
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "api/**"
+      - "studio/dist/**"
+      - "deploy/**"
+      - "data/raw/**"
+      - "data_warehouse/loan_dw.db"
+      - "prediction/saved_models/**"
+      - ".github/workflows/deploy-space.yml"
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build Space bundle
+        run: python deploy/build_space.py
+      - name: Upload to Hugging Face
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_SPACE: ${{ vars.HF_SPACE }}
+        run: |
+          if [ -z "$HF_TOKEN" ]; then
+            echo "::warning::HF_TOKEN secret not set; skipping deploy. See RUN_DASHBOARD.md."
+            exit 0
+          fi
+          pip install --quiet huggingface_hub
+          python - <<'PY'
+          import os
+          from huggingface_hub import HfApi
+          api = HfApi(token=os.environ["HF_TOKEN"])
+          space = os.environ.get("HF_SPACE") or f"{api.whoami()['name']}/loan-default-studio"
+          api.create_repo(space, repo_type="space", space_sdk="docker", exist_ok=True)
+          api.upload_folder(folder_path="space_build", repo_id=space, repo_type="space",
+                            commit_message="Deploy from GitHub " + os.environ.get("GITHUB_SHA", "")[:7])
+          print(f"Deployed: https://huggingface.co/spaces/{space}")
+          print(f"App URL:  https://{space.replace('/', '-').replace('_', '-').lower()}.hf.space")
+          PY
