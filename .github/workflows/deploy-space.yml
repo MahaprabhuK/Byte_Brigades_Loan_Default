@@ -4,17 +4,8 @@
 # (e.g. "yourname/loan-default-studio"); defaults to <your HF username>/loan-default-studio.
 name: Deploy to Hugging Face Space
 
+# Manual only: Hugging Face now requires a PRO plan for Docker Spaces.
 on:
-  push:
-    branches: [main]
-    paths:
-      - "api/**"
-      - "studio/dist/**"
-      - "deploy/**"
-      - "data/raw/**"
-      - "data_warehouse/loan_dw.db"
-      - "prediction/saved_models/**"
-      - ".github/workflows/deploy-space.yml"
   workflow_dispatch:
 
 jobs:
