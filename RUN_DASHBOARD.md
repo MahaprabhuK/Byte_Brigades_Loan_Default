@@ -49,27 +49,20 @@ the snapshot-only version.
 
 After changing models or defaults, regenerate the snapshot: `python api/main.py --snapshot`.
 
-## Public link (Hugging Face Space)
+## Public link (Render)
 
-Pushes to `main` that touch the dashboard trigger `.github/workflows/deploy-space.yml`. The workflow
-builds a Docker Space (`deploy/space/`) holding the API, the data, the warehouse and the built
-dashboard, then uploads it to Hugging Face. The free CPU tier gives 2 cores and 16 GB of RAM,
-which is plenty.
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/MahaprabhuK/Byte_Brigades_Loan_Default)
 
-One-time setup:
+`render.yaml` defines a free Docker web service built from the root `Dockerfile`. Click the button,
+sign in with GitHub and press **Apply**. The first build takes 5–8 minutes. The link looks like
+`https://loan-default-studio.onrender.com`. Every push to `main` redeploys it.
 
-1. Make a free account at huggingface.co.
-2. Settings > Access Tokens > *Create new token*, type **Write**. Copy it.
-3. On GitHub: repo > Settings > Secrets and variables > Actions > *New repository secret*.
-   Name it `HF_TOKEN` and paste the token.
-4. Actions tab > *Deploy to Hugging Face Space* > *Run workflow*.
-
-The log prints the Space page and the app URL: `https://<hf-username>-loan-default-studio.hf.space`.
-The first build takes 3–5 minutes. After that, the models train about 20 s after each cold
-start. The Space sleeps after 48 h without visitors, so open it a few minutes before the review.
-
-To test the exact bundle locally: `python deploy/build_space.py`, then
-`cd space_build && python api/main.py` and open http://localhost:7860.
+Free-plan behaviour:
+- It sleeps after 15 minutes without visitors and takes about a minute to wake. Open the link a
+  couple of minutes before you share or present it.
+- Defaults and presets load instantly because the API serves them from the precomputed snapshot.
+- The free CPU is small, so custom retrains (e.g. Gradient Boosting at 300 stages) can take a
+  few minutes there. On your laptop they take seconds.
 
 ## Suggested 10-minute demo flow
 

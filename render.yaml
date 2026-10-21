@@ -1,4 +1,5 @@
-# Render Blueprint: Dashboard > New > Blueprint > pick this repo.
+# Render Blueprint: free Docker web service for the dashboard + API.
+# One click: https://render.com/deploy?repo=https://github.com/MahaprabhuK/Byte_Brigades_Loan_Default
 services:
   - type: web
     name: loan-default-studio

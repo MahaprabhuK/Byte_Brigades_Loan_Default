@@ -1,3 +1,4 @@
+# Minimal runtime for the dashboard API (used by the Dockerfile / Render)
 pandas==3.0.5
 numpy==2.5.3
 scikit-learn==1.9.1

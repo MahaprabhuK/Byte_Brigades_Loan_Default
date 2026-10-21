@@ -2,7 +2,7 @@
 FROM python:3.13-slim
 ENV PYTHONUNBUFFERED=1 PORT=8000
 WORKDIR /app
-COPY deploy/space/requirements.txt requirements-api.txt
+COPY requirements-api.txt requirements-api.txt
 RUN pip install --no-cache-dir -r requirements-api.txt
 COPY api api
 COPY studio/dist studio/dist
