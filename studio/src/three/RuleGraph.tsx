@@ -1,4 +1,5 @@
-import { Html, Line, OrbitControls } from '@react-three/drei';
+import Orbit from './Orbit';
+import {Html, Line} from '@react-three/drei';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
@@ -90,7 +91,7 @@ export default function RuleGraph(props: { rules: Rule[]; itemSupport: Record<st
       <ambientLight intensity={0.6} />
       <pointLight position={[0, 0, 0]} intensity={20} color="#ff4d6d" />
       <Graph {...props} />
-      <OrbitControls enablePan={false} minDistance={4} maxDistance={18} />
+      <Orbit enablePan={false} minDistance={4} maxDistance={18} />
     </Canvas>
   );
 }

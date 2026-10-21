@@ -1,4 +1,5 @@
-import { OrbitControls } from '@react-three/drei';
+import Orbit from '../three/Orbit';
+
 import { Canvas } from '@react-three/fiber';
 import { ArrowDownToLine, ArrowUpFromLine, Box, Code2, Layers, RefreshCcw, Scissors, Shuffle } from 'lucide-react';
 import { useMemo, useRef, useState } from 'react';
@@ -230,8 +231,8 @@ export default function Olap() {
 
         <div className="space-y-6">
           <Panel pad={false} className="relative">
-            <Lazy3D height={560}>
-              <Canvas camera={{ position: [8.5, 6.5, 11.5], fov: 42 }} dpr={[1, 2]}>
+            <Lazy3D height={typeof window !== 'undefined' && window.innerWidth < 640 ? 440 : 560}>
+              <Canvas camera={{ position: [8.5, 6.5, 11.5], fov: typeof window !== 'undefined' && window.innerWidth < 640 ? 54 : 42 }} dpr={[1, 2]}>
                 <ambientLight intensity={0.7} />
                 <pointLight position={[8, 10, 8]} intensity={80} />
                 <pointLight position={[-8, -4, -6]} intensity={40} color="#8b7dff" />
@@ -240,7 +241,7 @@ export default function Olap() {
                     highlight={highlight} mode={op === 'slice' ? 'slice' : op === 'dice' ? 'dice' : 'normal'} sliceAxis={slice[0]}
                     transition={transition} measureLabel={cube.measure_label} fast={fast} />
                 )}
-                <OrbitControls autoRotate autoRotateSpeed={0.45} enablePan={false} minDistance={5} maxDistance={26} />
+                <Orbit autoRotate autoRotateSpeed={0.45} enablePan={false} minDistance={5} maxDistance={26} />
               </Canvas>
             </Lazy3D>
             <Busy show={base.loading || filtered.loading} label="Running SQL on loan_dw.db" />
@@ -249,7 +250,7 @@ export default function Olap() {
               <Chip>{(result?.rows_covered ?? 0).toLocaleString()} loans</Chip>
               <Chip>{result?.ms ?? 0} ms</Chip>
             </div>
-            <div className="pointer-events-none absolute right-4 top-4 flex w-[320px] items-center gap-3">
+            <div className="pointer-events-none absolute right-4 top-14 flex w-[min(320px,calc(100%-2rem))] items-center gap-3 sm:top-4">
               <span className="font-mono text-[10px] text-slate-500">{cube?.measure_label}</span>
               <span className="font-mono text-[10px] text-safe">{vmin}</span>
               <div className="h-1.5 flex-1 max-w-[260px] rounded-full" style={{ background: `linear-gradient(90deg, ${riskColor(0)}, ${riskColor(0.33)}, ${riskColor(0.66)}, ${riskColor(1)})` }} />

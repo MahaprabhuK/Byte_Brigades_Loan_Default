@@ -1,4 +1,5 @@
-import { OrbitControls } from '@react-three/drei';
+import Orbit from '../three/Orbit';
+
 import { Canvas } from '@react-three/fiber';
 import { AnimatePresence, motion } from 'framer-motion';
 import { CheckCircle2, Play, RotateCcw, Wind } from 'lucide-react';
@@ -101,7 +102,7 @@ export default function Preprocess() {
               <pointLight position={[-5, 2, -3]} intensity={25} color="#8b7dff" />
               <Tornado runId={runId} testSize={testSize} defaultRate={0.117} fast={fast} onDone={() => setAnimDone(true)}
                 trainN={result?.split.train} testN={result?.split.test} />
-              <OrbitControls enableZoom={false} enablePan={false} maxPolarAngle={Math.PI / 2.1} />
+              <Orbit enableZoom={false} enablePan={false} maxPolarAngle={Math.PI / 2.1} />
             </Canvas>
           </Lazy3D>
           <Busy show={runId > 0 && !animDone} label="Cleaning · splitting · scaling · encoding" />

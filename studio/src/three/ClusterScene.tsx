@@ -1,4 +1,5 @@
-import { Html, OrbitControls } from '@react-three/drei';
+import Orbit from './Orbit';
+import {Html} from '@react-three/drei';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useEffect, useMemo, useRef } from 'react';
 import * as THREE from 'three';
@@ -92,7 +93,7 @@ export default function ClusterScene(props: any) {
   return (
     <Canvas camera={{ position: [5.5, 3.5, 6.5], fov: 45 }} dpr={[1, 2]}>
       <Cloud {...props} />
-      <OrbitControls autoRotate autoRotateSpeed={0.6} enablePan={false} minDistance={3} maxDistance={18} />
+      <Orbit autoRotate autoRotateSpeed={0.6} enablePan={false} minDistance={3} maxDistance={18} />
     </Canvas>
   );
 }

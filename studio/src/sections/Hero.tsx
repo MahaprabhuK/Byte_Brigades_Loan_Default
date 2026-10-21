@@ -33,7 +33,7 @@ export default function Hero() {
     <section id="top" className="relative h-[100svh] min-h-[640px] overflow-hidden">
       <div className="absolute inset-0" ref={vis}>
         <Canvas frameloop={visible ? 'always' : 'never'} camera={{ position: [0, 0, 7.2], fov: 50 }} dpr={[1, 2]} gl={{ antialias: true, alpha: true }}>
-          <ParticleSphere fast={fast} defaultRate={data?.default_rate ?? 0.117} />
+          <ParticleSphere fast={fast} count={typeof window !== 'undefined' && window.innerWidth < 640 ? 7000 : 16000} defaultRate={data?.default_rate ?? 0.117} />
         </Canvas>
       </div>
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,#04060c_78%)]" />

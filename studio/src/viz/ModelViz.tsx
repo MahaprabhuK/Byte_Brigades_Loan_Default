@@ -1,5 +1,6 @@
+import Orbit from '../three/Orbit';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
+
 import { motion } from 'framer-motion';
 import { useMemo, useRef } from 'react';
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
@@ -160,7 +161,7 @@ export function ForestViz({ data, fast }: { data: any; fast: boolean }) {
           <ambientLight intensity={0.6} />
           <directionalLight position={[4, 8, 5]} intensity={1.4} />
           <Forest trees={data.viz.trees} runKey={JSON.stringify(data.params)} fast={fast} />
-          <OrbitControls enableZoom={false} enablePan={false} maxPolarAngle={Math.PI / 2.2} />
+          <Orbit enableZoom={false} enablePan={false} maxPolarAngle={Math.PI / 2.2} />
         </Canvas>
       </div>
       <div className="flex flex-col">

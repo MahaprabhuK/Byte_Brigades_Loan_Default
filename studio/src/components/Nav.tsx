@@ -81,6 +81,14 @@ export default function Nav() {
           </div>
         </div>
       </div>
+      <nav className="no-scrollbar flex gap-1 overflow-x-auto border-b border-white/5 bg-ink-950/80 px-3 py-1.5 backdrop-blur-xl lg:hidden">
+        {LINKS.map(([id, n, label]) => (
+          <a key={id} href={`#${id}`}
+            className={`shrink-0 rounded-lg px-2.5 py-1 text-xs transition ${active === id ? 'bg-white/10 text-white' : 'text-slate-400'}`}>
+            <span className="mr-1 font-mono text-[10px] text-safe/70">{n}</span>{label}
+          </a>
+        ))}
+      </nav>
       <motion.div style={{ scaleX: x }} className="h-[2px] origin-left bg-gradient-to-r from-safe via-sky2 to-risk" />
       <AnimatePresence>
         {notice && (
