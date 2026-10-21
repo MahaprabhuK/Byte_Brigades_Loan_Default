@@ -21,8 +21,8 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
       - name: Build Space bundle
@@ -38,13 +38,31 @@ jobs:
           fi
           pip install --quiet huggingface_hub
           python - <<'PY'
-          import os
+          import os, sys, traceback
           from huggingface_hub import HfApi
-          api = HfApi(token=os.environ["HF_TOKEN"])
-          space = os.environ.get("HF_SPACE") or f"{api.whoami()['name']}/loan-default-studio"
-          api.create_repo(space, repo_type="space", space_sdk="docker", exist_ok=True)
-          api.upload_folder(folder_path="space_build", repo_id=space, repo_type="space",
-                            commit_message="Deploy from GitHub " + os.environ.get("GITHUB_SHA", "")[:7])
+          api = HfApi(token=os.environ["HF_TOKEN"].strip())
+          try:
+              me = api.whoami()
+          except Exception as e:
+              sys.exit(f"HF_TOKEN was rejected by Hugging Face ({e}). Create a new token and paste it again, with no spaces.")
+          role = (me.get("auth", {}).get("accessToken", {}) or {}).get("role")
+          print("Logged in to Hugging Face as", me["name"], "| token role:", role)
+          if role == "read":
+              sys.exit("HF_TOKEN is a READ token. Create a token with type 'Write' and update the GitHub secret.")
+          space = (os.environ.get("HF_SPACE") or f"{me['name']}/loan-default-studio").strip()
+          print("Target Space:", space)
+          try:
+              api.create_repo(space, repo_type="space", space_sdk="docker", exist_ok=True)
+          except Exception as e:
+              traceback.print_exc()
+              sys.exit(f"Could not create the Space '{space}'. If the token is fine-grained, give it write access to your repos/Spaces "
+                       "(or use a classic 'Write' token).")
+          try:
+              api.upload_folder(folder_path="space_build", repo_id=space, repo_type="space",
+                                commit_message="Deploy from GitHub " + os.environ.get("GITHUB_SHA", "")[:7])
+          except Exception as e:
+              traceback.print_exc()
+              sys.exit("Upload to the Space failed; see the traceback above.")
           print(f"Deployed: https://huggingface.co/spaces/{space}")
-          print(f"App URL:  https://{space.replace('/', '-').replace('_', '-').lower()}.hf.space")
+          print(f"App URL:  https://{space.replace('/', '-').replace('_', '-').replace('.', '-').lower()}.hf.space")
           PY
