@@ -1,0 +1,11 @@
+# Render Blueprint: Dashboard > New > Blueprint > pick this repo.
+services:
+  - type: web
+    name: loan-default-studio
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/health
+    envVars:
+      - key: WARMUP
+        value: "0"

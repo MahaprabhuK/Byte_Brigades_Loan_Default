@@ -40,7 +40,47 @@ def _warm():
     STATE["warm"] = True
 
 
-threading.Thread(target=_warm, daemon=True).start()
+# WARMUP=0 skips background training (useful on hosts with a fraction of a CPU)
+if os.environ.get("WARMUP", "1") != "0":
+    threading.Thread(target=_warm, daemon=True).start()
+else:
+    STATE["warm"] = True
+
+# Precomputed responses (studio/public/snapshot.json) answer default/preset requests
+# instantly; anything else is computed live.
+from fastapi import Request  # noqa: E402
+from fastapi.responses import Response  # noqa: E402
+
+_SNAP = {}
+for _p in (os.path.join(ROOT, "studio", "public", "snapshot.json"), os.path.join(ROOT, "studio", "dist", "snapshot.json")):
+    if os.path.exists(_p):
+        try:
+            with open(_p) as _f:
+                _SNAP = json.load(_f)
+            break
+        except Exception:  # noqa
+            pass
+
+
+@app.middleware("http")
+async def _snapshot_cache(request: Request, call_next):
+    path = request.url.path
+    if _SNAP and path.startswith("/api/") and path != "/api/health":
+        key = path + (("?" + request.url.query) if request.url.query else "")
+        if request.method == "POST":
+            body = await request.body()
+            try:
+                import snapshot as _snapmod
+                key = path + "|" + _snapmod.canonical(json.loads(body or b"{}"))
+            except Exception:  # noqa
+                key = None
+
+            async def _receive():
+                return {"type": "http.request", "body": body, "more_body": False}
+            request = Request(request.scope, _receive)
+        if key and key in _SNAP:
+            return Response(json.dumps(_SNAP[key]), media_type="application/json", headers={"x-cache": "snapshot"})
+    return await call_next(request)
 
 
 # ------------------------------------------------------------------ models
